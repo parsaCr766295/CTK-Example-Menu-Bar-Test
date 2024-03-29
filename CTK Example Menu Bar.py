@@ -3,6 +3,8 @@ import tkinter as tk  # Preferably import only the required modules
 from tkinter import filedialog , messagebox
 import customtkinter
 
+customtkinter.set_default_color_theme("dark-blue")
+customtkinter.set_appearance_mode("blue")
 # Pre-define some defaults
 FONT_LARGE = ("Arial", 48)
 ALLOWED_FILES = (("JPEG files", "*.jpg"), ("PNG files", "*.png"), ("All files", "*.*"))
@@ -42,7 +44,7 @@ class MyApp(customtkinter.CTk):
         self.theme_menu = tk.Menu(self.menu_bar, tearoff=0)
         self.theme_menu.add_command(label="Light", command=lambda: self.theme_selection(1))
         self.theme_menu.add_command(label="Dark", command=lambda: self.theme_selection(2))
-        self.theme_menu.add_command(label="Dark", command=self.theme_selection_dark_blue)
+        self.theme_menu.add_command(label="Dark-blue", command=self.theme_selection_dark_blue)
         self.theme_menu.add_command(label="System", command=lambda: self.theme_selection(0))
 
         # Add the Theme menu to the menu bar
@@ -105,9 +107,10 @@ class MyApp(customtkinter.CTk):
 
     def about(self):
         # Show an info message box with the about text
-        messagebox.showinfo("About", "Copyright 2024 All rights reserved.\nWebsite: www.python.org")
+        messagebox.showinfo("About", "Copyright 2024 All rights reserved.\nWebsite:https://github.com/parsaCr766295")
 
 if __name__ == "__main__":
     app = MyApp()
     app.mainloop()
+    app.destroy()
     # No need to explicitly destroy the window, it will be handled automatically
