@@ -1,20 +1,20 @@
 import os
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog , messagebox
 import customtkinter
+# Pre-define some defaults
+customtkinter.set_default_color_theme("dark-blue")
+customtkinter.set_appearance_mode("blue")
 
 FONT_LARGE = ("Arial", 48)
 ALLOWED_FILES = (("JPEG files", "*.jpg"), ("PNG files", "*.png"), ("All files", "*.*"))
 SavedContent = "This is the final content."
 
 class MyApp(customtkinter.CTk):
-    """
-    Custom application class with menu bar.
-    """
-
     def __init__(self):
         super().__init__()
 
+        # Initializing variables
         self.default_folder = tk.StringVar(self)
         self.default_folder.set(os.path.expanduser("~"))
 
@@ -41,12 +41,13 @@ class MyApp(customtkinter.CTk):
 
         helpmenu = tk.Menu(self.menu_bar, tearoff=0)
         helpmenu.add_command(label="About", command=self.about)
+
         self.menu_bar.add_cascade(label="Help", menu=helpmenu)
+
 
         self.config(menu=self.menu_bar)
 
     def open_file(self):
-        """Open a file dialog and print the content."""
         filename = filedialog.askopenfilename(filetypes=ALLOWED_FILES)
         if filename:
             with open(filename, 'r') as file:
@@ -54,46 +55,39 @@ class MyApp(customtkinter.CTk):
             print(content)
 
     def select_folder(self):
-        """Select a folder and print the path."""
         initialdir = self.default_folder.get()
-        folder = filedialog.askdirectory(initialdir=initialdir, title="Select folder containing student photos")
-        if folder:
-            print(f"Set default folder: {folder}")
+        # self.default_folder.set(filedialog.askdirectory(initialdir=initialdir, title="Select folder containing student photos"))
+        self.default_folder = filedialog.askdirectory(initialdir=self.default_folder, title="Select folder containing student photos")
+        print(f"Set default folder: {self.default_folder}")
 
     def save_final(self):
-        """Save a file with default content."""
-        initialdir = self.default_folder.get()
+        initialdir = self.default_folder
         title = "Save File"
         default_ext = "txt"
         filename = filedialog.asksaveasfilename(initialdir=initialdir, title=title, defaultextension=default_ext,
                                                 filetypes=[("Text Files", "*.txt")])
         if filename:
             filepath = filename if filename.endswith(".txt") else f"{filename}.txt"
-            try:
-                with open(filepath, 'w') as file:
-                    file.write(SavedContent)
-            except Exception as e:
-                messagebox.showerror("Error", f"Error saving file: {e}")
+            with open(filepath, 'w') as file:
+                file.write(SavedContent)
 
     def theme_selection(self, choice):
-        """Change the theme."""
         if choice == 1:
             customtkinter.set_appearance_mode("Light")
         elif choice == 2:
             customtkinter.set_appearance_mode("Dark")
-        elif choice == 0:
-            customtkinter.set_appearance_mode("System")
         else:
-            self.theme_selection_dark_blue()
-
+            customtkinter.set_appearance_mode("System")
     def theme_selection_dark_blue(self):
-        """Change the theme to dark blue."""
-        pass  # Add your custom theme implementation here
-
+        customtkinter.set_appearance_mode("dark-blue")
     def about(self):
-        """Display about information."""
-        messagebox.showinfo("About", "CustomTkinter Sample Menu Bar")
+        messagebox.showinfo("About", "Copyright 2024 All rights reserved.\nWebsite: www.python.org")
 
 if __name__ == "__main__":
     app = MyApp()
     app.mainloop()
+    app.destroy()
+# No need to explicitly destroy the window, it will be handled automatically
+#             self.my_label = customtkinter.CTkLabel(self, text=filename)
+#             self.my_label.grid(row=1, column=0, padx=10, pady=10)
+#             # your code
