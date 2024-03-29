@@ -17,6 +17,7 @@ class MyApp(customtkinter.CTk):
         # Initializing variables
         self.default_folder = tk.StringVar(self)
         self.default_folder.set(os.path.expanduser("~"))
+        self.saved_content = "This is the final content."
 
         # Set window size and title
         self.geometry("400x200")
